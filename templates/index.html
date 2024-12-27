@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport">
+    <title>лаба 6</title>
+</head>
+<body>
+    <h1>Центр управления</h1>
+
+    <!-- Форма для добавления инстанса -->
+    <form method="POST" action="/add_instance">
+        <div class="form-group">
+            <label for="ip">IP:</label>
+            <input type="text" id="ip" name="ip">
+        </div>
+        <div class="form-group">
+            <label for="port">Port:</label>
+            <input type="number" id="port" name="port">
+        </div>
+        <button type="submit">Добавить инстанс</button>
+    </form>
+
+    <!-- Список инстансов -->
+    <h2>Список доступных инстансов</h2>
+    <ul>
+        {% for instance in instances %}
+            <li>
+                {{ instance.ip }}:{{ instance.port }} - 
+                {% if instance.active %}
+                    <span style="color: green;">Доступен</span>
+                {% else %}
+                    <span style="color: red;">Недоступен</span>
+                {% endif %}
+                <!-- Кнопка для удаления инстанса -->
+                <form method="POST" action="/remove_instance" style="display:inline;">
+                    <input type="hidden" name="index" value="{{ loop.index0 }}">
+                    <button type="submit" class="remove-button">Удалить</button>
+                </form>
+            </li>
+        {% else %}
+            <li>Нет доступных инстансов</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
